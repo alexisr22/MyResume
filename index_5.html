@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alexis Rojas — Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/devicon/2.15.1/devicon.min.css">
+<style>
+  :root{
+    --bg: #060810;
+    --bg-rgb: 6,8,16;
+    --bg-raised: #0f1420;
+    --ink: #e9edf7;
+    --ink-dim: #8891a6;
+    --ink-faint: #545d72;
+    --rule: #1c2436;
+    --blue: #4f8fef;
+    --blue-bright: #6ea8ff;
+    --cyan: #38bdf8;
+    --glow-a: rgba(79,143,239,0.30);
+    --glow-b: rgba(56,189,248,0.10);
+    --grid-line: rgba(79,143,239,0.035);
+    --max: 740px;
+    --nav-h: 60px;
+  }
+
+  html[data-theme="light"]{
+    --bg: #f4f6fb;
+    --bg-rgb: 244,246,251;
+    --bg-raised: #ffffff;
+    --ink: #131a2c;
+    --ink-dim: #4d5568;
+    --ink-faint: #7a8296;
+    --rule: #dde2ee;
+    --blue: #2f6fe0;
+    --blue-bright: #1d4ed8;
+    --cyan: #0e7490;
+    --glow-a: rgba(47,111,224,0.20);
+    --glow-b: rgba(14,116,144,0.08);
+    --grid-line: rgba(47,111,224,0.05);
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
+    position: relative;
+    overflow-x: hidden;
+    transition: background .25s ease, color .25s ease;
+  }
+
+  body::before{
+    content:"";
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  a{ color: var(--blue-bright); text-decoration: none; border-bottom: 1px solid rgba(79,143,239,0.35); transition: border-color .15s ease, color .15s ease; }
+  a:hover, a:focus-visible{ color: var(--cyan); border-color: var(--cyan); }
+  a:focus-visible{ outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ---------- Top nav ---------- */
+  .topnav{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    background: rgba(var(--bg-rgb), 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .topnav .wrap{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+  }
+  .brand{ font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--ink); white-space: nowrap; }
+  .navlinks{ display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .navlinks::-webkit-scrollbar{ display:none; }
+  .navlinks a{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink-dim);
+    border-bottom: none;
+    white-space: nowrap;
+    padding: 6px 10px;
+    border-radius: 5px;
+    transition: color .15s ease, background .15s ease;
+  }
+  .navlinks a:hover{ color: var(--ink); background: var(--bg-raised); }
+
+  .controls{ display:flex; align-items:center; gap:10px; flex-shrink:0; }
+
+  .langswitch{ display: flex; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+  .lang-btn{ background: transparent; border: none; color: var(--ink-faint); padding: 6px 10px; cursor: pointer; font-family: inherit; font-size: inherit; transition: background .15s ease, color .15s ease; }
+  .lang-btn.active{ background: var(--blue); color: #06090f; }
+  .lang-btn:not(.active):hover{ color: var(--ink); }
+
+  .theme-btn{
+    width: 30px; height: 30px;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink-dim);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+    flex-shrink: 0;
+  }
+  .theme-btn:hover{ background: var(--bg-raised); color: var(--ink); }
+  .theme-btn svg{ width: 16px; height: 16px; }
+  html[data-theme="light"] .icon-sun{ display:none; }
+  html:not([data-theme="light"]) .icon-moon{ display:none; }
+
+  /* ---------- Intro zone (hero + profile) with mouse-tracked glow ---------- */
+  .intro-zone{ position: relative; overflow: hidden; }
+
+  .glow{
+    position: absolute;
+    top: 0; left: 0;
+    width: 520px; height: 520px;
+    background: radial-gradient(circle, var(--glow-a) 0%, var(--glow-b) 45%, transparent 72%);
+    filter: blur(10px);
+    z-index: -1;
+    opacity: 0.85;
+    transform: translate(-28%, -34%);
+    transition: transform .35s ease-out, opacity .35s ease;
+    pointer-events: none;
+  }
+
+  .hero{ padding: 76px 0 60px; position: relative; opacity: 0; animation: rise .7s ease-out forwards; }
+  @keyframes rise{ from{ opacity: 0; transform: translateY(10px); } to{ opacity: 1; transform: translateY(0); } }
+
+  .name{
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(2.6rem, 6vw, 4rem);
+    letter-spacing: -0.01em;
+    line-height: 1.02;
+    margin: 0 0 10px;
+    font-optical-sizing: auto;
+  }
+
+  .role{ font-family: 'IBM Plex Mono', monospace; font-size: 0.98rem; color: var(--blue-bright); margin: 0 0 28px; }
+
+  .contact{ display: flex; flex-wrap: wrap; gap: 6px 18px; font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--ink-dim); }
+  .contact a{ color: var(--ink-dim); border-bottom: 1px solid var(--rule); }
+  .contact a:hover{ color: var(--blue-bright); border-color: var(--blue-bright); }
+
+  .cv-download{
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 30px;
+    padding: 11px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--bg);
+    background: var(--blue);
+    border: none;
+    border-radius: 6px;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .cv-download:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px -8px var(--blue);
+    background: var(--blue-bright);
+    border-color: transparent;
+  }
+  .cv-download svg{ width: 15px; height: 15px; transition: transform .18s ease; }
+  .cv-download:hover svg{ transform: translateY(2px); }
+
+  /* ---------- Section shell ---------- */
+  section{ padding: 44px 0; border-top: 1px solid var(--rule); scroll-margin-top: calc(var(--nav-h) + 12px); }
+  .intro-zone section{ border-top: none; }
+  .intro-zone section + section{ border-top: 1px solid var(--rule); }
+
+  h2{ font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.5rem; margin: 0 0 24px; color: var(--ink); }
+
+  .profile p{ max-width: 62ch; color: var(--ink-dim); font-size: 1.02rem; }
+
+  /* ---------- Experience timeline ---------- */
+  .timeline{ position: relative; padding-left: 26px; }
+  .timeline::before{ content: ""; position: absolute; left: 5px; top: 6px; bottom: 6px; width: 1px; background: var(--rule); }
+  .job{ position: relative; margin-bottom: 40px; }
+  .job:last-child{ margin-bottom: 0; }
+  .job::before{ content:""; position:absolute; left: -26px; top: 6px; width: 9px; height: 9px; border-radius: 50%; background: var(--bg); border: 2px solid var(--blue); z-index: 1; }
+  .job.current::after{ content:""; position:absolute; left: -30px; top: 2px; width: 17px; height: 17px; border-radius: 50%; border: 1px solid var(--blue); animation: pulse 2.4s ease-out infinite; }
+  @keyframes pulse{ 0%{ transform: scale(0.6); opacity: 0.9; } 75%{ transform: scale(1.6); opacity: 0; } 100%{ transform: scale(1.6); opacity: 0; } }
+
+  .job-dates{ font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 6px; }
+  .job-title{ font-size: 1.08rem; font-weight: 500; margin: 0 0 2px; color: var(--ink); }
+  .job-company{ font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--cyan); margin: 0 0 14px; }
+  .job ul{ margin: 0; padding-left: 18px; color: var(--ink-dim); font-size: 0.95rem; }
+  .job li{ margin-bottom: 8px; }
+  .job li::marker{ color: var(--blue); }
+
+  /* ---------- Projects (slide in left -> right on scroll) ---------- */
+  .proj{
+    position: relative;
+    padding: 4px 0 4px 22px;
+    border-left: 2px solid var(--rule);
+    margin-bottom: 34px;
+    transition: border-color .2s ease, opacity .6s ease, transform .6s ease;
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+  .proj.in-view{ opacity: 1; transform: translateX(0); }
+  .proj:nth-child(1){ transition-delay: 0s; }
+  .proj:nth-child(2){ transition-delay: .12s; }
+  .proj:nth-child(3){ transition-delay: .24s; }
+  .proj:last-child{ margin-bottom: 0; }
+  .proj:hover{ border-left-color: var(--blue); }
+  .proj-status{ font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--ink-faint); margin-bottom: 6px; }
+  .proj-title{ font-size: 1.08rem; font-weight: 500; margin: 0 0 8px; color: var(--ink); }
+  .proj-desc{ color: var(--ink-dim); font-size: 0.95rem; max-width: 62ch; margin: 0 0 14px; }
+  .proj-tags{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .proj-tags .tag{ font-size: 0.76rem; padding: 5px 10px; }
+
+  /* ---------- Skills ---------- */
+  .skill-group{ margin-bottom: 26px; }
+  .skill-group:last-child{ margin-bottom: 0; }
+  .skill-label{ font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 12px; }
+  .tags{ display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag{
+    --tag-color: var(--blue);
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--ink);
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    padding: 7px 13px;
+    border-radius: 5px;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .tag i{ font-size: 1rem; color: var(--tag-color); transition: transform .18s ease; }
+  .tag:hover{ transform: translateY(-3px); border-color: var(--tag-color); box-shadow: 0 6px 18px -6px var(--tag-color); }
+  .tag:hover i{ transform: scale(1.15); }
+
+  /* ---------- Two-col: education / languages ---------- */
+  .grid2{ display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .block-label{ font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-faint); margin-bottom: 10px; }
+  .block p{ margin: 0 0 4px; color: var(--ink); font-size: 0.98rem; }
+  .block p.sub{ color: var(--ink-dim); font-size: 0.88rem; }
+
+  footer{ padding: 40px 0 60px; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--ink-faint); border-top: 1px solid var(--rule); }
+
+  @media (max-width: 560px){
+    .hero{ padding: 56px 0 40px; }
+    section{ padding: 36px 0; }
+    .grid2{ grid-template-columns: 1fr; gap: 28px; }
+    .glow{ width: 340px; height: 340px; }
+    .brand{ display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="wrap">
+    <span class="brand">alexis.rojas()</span>
+    <div class="navlinks">
+      <a href="#profile" data-i18n="nav-profile">Profile</a>
+      <a href="#experience" data-i18n="nav-experience">Experience</a>
+      <a href="#projects" data-i18n="nav-projects">Projects</a>
+      <a href="#skills" data-i18n="nav-skills">Skills</a>
+      <a href="#education" data-i18n="nav-education">Education</a>
+    </div>
+    <div class="controls">
+      <div class="langswitch">
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn active" data-lang="en">EN</button>
+      </div>
+      <button class="theme-btn" id="theme-toggle" aria-label="Toggle theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="intro-zone" id="intro-zone">
+  <div class="glow" id="glow"></div>
+  <div class="wrap">
+    <header class="hero">
+      <h1 class="name">Alexis Rojas</h1>
+      <p class="role">Full Stack Developer</p>
+      <div class="contact">
+        <span data-i18n="loc">Jalisco, Mexico</span>
+        <a href="mailto:rojasbrian025@gmail.com">rojasbrian025@gmail.com</a>
+        <a href="tel:+524741357523">+52 474 135 7523</a>
+        <a href="https://www.linkedin.com/in/alexis-rojas-4b6b18224/" target="_blank" rel="noopener">linkedin.com/in/alexis-rojas</a>
+      </div>
+      <a class="cv-download" href="Alexis_Rojas_Resume.pdf" download="Alexis_Rojas_Resume.pdf">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+        <span data-i18n="cv-btn">Download CV</span>
+      </a>
+    </header>
+
+    <section id="profile" class="profile">
+      <h2 data-i18n="h-profile">Profile</h2>
+      <p data-i18n="profile-text">Full Stack Developer with 4 years of experience designing, building and scaling web applications with Django, Laravel, React, Angular and Next.js. Proactive, problem-solving approach with hands-on experience implementing AWS services (S3, SES, IAM, Lambda) for scalable cloud solutions. Led the migration of a legacy system to a modern stack, improving performance, maintainability and scalability. Experienced mentoring teams and driving best practices in agile environments.</p>
+    </section>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="experience" class="experience">
+    <h2 data-i18n="h-experience">Experience</h2>
+    <div class="timeline">
+
+      <div class="job current">
+        <div class="job-dates" data-i18n="job1-dates">December 2025 — Present</div>
+        <p class="job-title">Full Stack Developer</p>
+        <p class="job-company">ClickIT DevOps &amp; Software Development</p>
+        <ul>
+          <li data-i18n="job1-b1">Develop and maintain dynamic web applications using Django, Laravel and Node.js on the backend, and React and Angular on the frontend.</li>
+          <li data-i18n="job1-b2">Design, build and consume RESTful APIs for cross-platform integrations and interactive user interfaces.</li>
+          <li data-i18n="job1-b3">Implement AWS services (S3, SES, IAM) for secure storage, messaging and access-control solutions.</li>
+          <li data-i18n="job1-b4">Proactively identify and resolve bottlenecks and bugs through structured debugging and testing.</li>
+          <li data-i18n="job1-b5">Work with MySQL databases, optimizing queries, foreign keys and schema design.</li>
+          <li data-i18n="job1-b6">Collaborate within Scrum teams, contributing to sprint planning and continuous feature delivery.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-dates" data-i18n="job2-dates">March 2023 — December 2025</div>
+        <p class="job-title">Full Stack Developer</p>
+        <p class="job-company">TechGenies Software Application Development Services</p>
+        <ul>
+          <li data-i18n="job2-b1">Led the migration of a legacy application to a modern Laravel and React/Angular stack, improving structure, performance and long-term scalability.</li>
+          <li data-i18n="job2-b2">Built and consumed APIs to connect backend services with dynamic frontend applications.</li>
+          <li data-i18n="job2-b3">Applied object-oriented programming and inheritance principles to design maintainable, reusable code.</li>
+          <li data-i18n="job2-b4">Worked with relational databases (MySQL), ensuring data consistency and query performance.</li>
+          <li data-i18n="job2-b5">Implemented permission management and access-control measures to protect application data.</li>
+          <li data-i18n="job2-b6">Collaborated in Agile/Scrum teams, consistently delivering solutions aligned with business goals.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="projects" class="projects">
+    <h2 data-i18n="h-projects">Projects</h2>
+
+    <div class="proj">
+      <div class="proj-status" data-i18n="proj1-status">Private project</div>
+      <p class="proj-title" data-i18n="proj1-title">Human Resources System</p>
+      <p class="proj-desc" data-i18n="proj1-desc">HR platform with full company-management modules: users, locations and partners, plus a performance evaluation system with configurable weighted scoring and termination-reason tracking.</p>
+      <div class="proj-tags">
+        <span class="tag" style="--tag-color:#FF2D20"><i class="devicon-laravel-plain"></i>Laravel</span>
+        <span class="tag" style="--tag-color:#61DAFB"><i class="devicon-react-original"></i>React</span>
+        <span class="tag" style="--tag-color:#4479A1"><i class="devicon-mysql-plain"></i>MySQL</span>
+        <span class="tag">REST APIs</span>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-status" data-i18n="proj2-status">Private project</div>
+      <p class="proj-title" data-i18n="proj2-title">Legacy system migration (20+ years)</p>
+      <p class="proj-desc" data-i18n="proj2-desc">Full restructuring of a system that had been in production for over 20 years: chose the technology stack, migrated the database while preserving data integrity, and implemented AWS (SES, S3, Lambda). Includes the Activ8 module, integrated via API to generate dashboards for expenses, revenue, growth and hiring.</p>
+      <div class="proj-tags">
+        <span class="tag" style="--tag-color:#FF2D20"><i class="devicon-laravel-plain"></i>Laravel</span>
+        <span class="tag" style="--tag-color:#FF9900"><i class="devicon-amazonwebservices-plain-wordmark"></i>AWS</span>
+        <span class="tag" style="--tag-color:#4479A1"><i class="devicon-mysql-plain"></i>MySQL</span>
+        <span class="tag">Activ8 API</span>
+      </div>
+    </div>
+
+    <div class="proj">
+      <div class="proj-status" data-i18n="proj3-status">Private project</div>
+      <p class="proj-title" data-i18n="proj3-title">Platform for swim school chains</p>
+      <p class="proj-desc" data-i18n="proj3-desc">System built from scratch: performance tracking with custom formulas, payment management, schedule calendars, and differentiated profiles for students, teachers, schools and administrators.</p>
+      <div class="proj-tags">
+        <span class="tag" style="--tag-color:#44b78b"><i class="devicon-django-plain"></i>Django</span>
+        <span class="tag" style="--tag-color:#61DAFB"><i class="devicon-react-original"></i>React</span>
+        <span class="tag" style="--tag-color:#4479A1"><i class="devicon-mysql-plain"></i>MySQL</span>
+      </div>
+    </div>
+
+  </section>
+
+  <section id="skills" class="skills">
+    <h2 data-i18n="h-skills">Skills</h2>
+
+    <div class="skill-group">
+      <div class="skill-label">backend</div>
+      <div class="tags">
+        <span class="tag" style="--tag-color:#44b78b"><i class="devicon-django-plain"></i>Django</span>
+        <span class="tag" style="--tag-color:#4B8BBE"><i class="devicon-python-plain"></i>Python</span>
+        <span class="tag" style="--tag-color:#FF2D20"><i class="devicon-laravel-plain"></i>Laravel</span>
+        <span class="tag" style="--tag-color:#83CD29"><i class="devicon-nodejs-plain"></i>Node.js</span>
+        <span class="tag" style="--tag-color:#f89820"><i class="devicon-java-plain"></i>Java</span>
+        <span class="tag">Perl</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-label">frontend</div>
+      <div class="tags">
+        <span class="tag" style="--tag-color:#61DAFB"><i class="devicon-react-original"></i>React</span>
+        <span class="tag" style="--tag-color:#000000"><i class="devicon-nextjs-original"></i>Next.js</span>
+        <span class="tag" style="--tag-color:#DD0031"><i class="devicon-angular-plain"></i>Angular</span>
+        <span class="tag" style="--tag-color:#3178C6"><i class="devicon-typescript-plain"></i>TypeScript</span>
+        <span class="tag" style="--tag-color:#e8c419"><i class="devicon-javascript-plain"></i>JavaScript</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-label" data-i18n="lbl-cloud">cloud &amp; devops</div>
+      <div class="tags">
+        <span class="tag" style="--tag-color:#FF9900"><i class="devicon-amazonwebservices-plain-wordmark"></i>AWS S3</span>
+        <span class="tag" style="--tag-color:#FF9900"><i class="devicon-amazonwebservices-plain-wordmark"></i>AWS SES</span>
+        <span class="tag" style="--tag-color:#FF9900"><i class="devicon-amazonwebservices-plain-wordmark"></i>AWS IAM</span>
+        <span class="tag" style="--tag-color:#FF9900"><i class="devicon-amazonwebservices-plain-wordmark"></i>AWS Lambda</span>
+        <span class="tag" style="--tag-color:#2496ED"><i class="devicon-docker-plain"></i>Docker</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-label" data-i18n="lbl-db">database</div>
+      <div class="tags">
+        <span class="tag" style="--tag-color:#4479A1"><i class="devicon-mysql-plain"></i>MySQL</span>
+        <span class="tag" style="--tag-color:#1298B7"><i class="devicon-mariadb-plain"></i>MariaDB</span>
+        <span class="tag" data-i18n="tag-relational">Relational modeling</span>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <div class="skill-label" data-i18n="lbl-tools">tools &amp; practices</div>
+      <div class="tags">
+        <span class="tag" style="--tag-color:#F05032"><i class="devicon-git-plain"></i>Git/GitHub</span>
+        <span class="tag" style="--tag-color:#0052CC"><i class="devicon-jira-plain"></i>Jira</span>
+        <span class="tag">SourceTree</span>
+        <span class="tag" style="--tag-color:#FF6C37"><i class="devicon-postman-plain"></i>Postman</span>
+        <span class="tag">Scrum/Agile</span>
+        <span class="tag">REST APIs</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="education">
+    <div class="grid2">
+      <div class="block">
+        <div class="block-label" data-i18n="lbl-education">education</div>
+        <p>Universidad de Guadalajara — CUlagos</p>
+        <p class="sub" data-i18n="edu-license">Professional License No. 15199747</p>
+      </div>
+      <div class="block">
+        <div class="block-label" data-i18n="lbl-languages">languages</div>
+        <p><span data-i18n="lang-es">Spanish</span> <span class="sub" data-i18n="lang-es-level">— Native</span></p>
+        <p><span data-i18n="lang-en">English</span> <span class="sub" data-i18n="lang-en-level">— Professional</span></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span data-i18n="footer-text">Alexis Rojas — updated 2026</span>
+  </footer>
+
+</div>
+
+<script>
+  const translations = {
+    es: {
+      "nav-profile": "Perfil", "nav-experience": "Experiencia", "nav-projects": "Proyectos", "nav-skills": "Skills", "nav-education": "Educación",
+      "loc": "Jalisco, México",
+      "h-profile": "Perfil", "h-experience": "Experiencia", "h-projects": "Proyectos", "h-skills": "Skills",
+      "profile-text": "Full Stack Developer con 4 años de experiencia diseñando, construyendo y escalando aplicaciones web con Django, Laravel, React, Angular y Next.js. Enfoque proactivo y orientado a la resolución de problemas, con experiencia práctica implementando servicios de AWS (S3, SES, IAM, Lambda) para soluciones escalables en la nube. Lideró la migración de un sistema legado a un stack moderno, mejorando rendimiento, mantenibilidad y escalabilidad. Con experiencia mentoreando equipos y promoviendo buenas prácticas en entornos ágiles.",
+      "job1-dates": "Diciembre 2025 — Presente",
+      "job1-b1": "Desarrollo y mantenimiento de aplicaciones web dinámicas con Django, Laravel y Node.js en el backend, y React y Angular en el frontend.",
+      "job1-b2": "Diseño, construcción y consumo de APIs RESTful para integraciones multiplataforma e interfaces interactivas.",
+      "job1-b3": "Implementación de servicios de AWS (S3, SES, IAM) para almacenamiento seguro, mensajería y control de acceso.",
+      "job1-b4": "Identificación y resolución proactiva de cuellos de botella y bugs mediante debugging y testing estructurado.",
+      "job1-b5": "Trabajo con bases de datos MySQL, optimizando queries, llaves foráneas y diseño de esquemas.",
+      "job1-b6": "Colaboración en equipos Scrum, participando en sprint planning y entrega continua de features.",
+      "job2-dates": "Marzo 2023 — Diciembre 2025",
+      "job2-b1": "Lideró la migración de una aplicación legada a un stack moderno de Laravel y React/Angular, mejorando estructura, rendimiento y escalabilidad a largo plazo.",
+      "job2-b2": "Construcción y consumo de APIs para conectar servicios backend con aplicaciones frontend dinámicas.",
+      "job2-b3": "Aplicación de principios de programación orientada a objetos y herencia para código mantenible y reutilizable.",
+      "job2-b4": "Trabajo con bases de datos relacionales (MySQL), asegurando consistencia de datos y rendimiento en queries.",
+      "job2-b5": "Implementación de manejo de permisos y control de acceso para proteger datos de la aplicación.",
+      "job2-b6": "Colaboración en equipos Agile/Scrum, entregando soluciones alineadas a objetivos de negocio.",
+      "proj1-status": "Proyecto privado", "proj1-title": "Sistema de Recursos Humanos",
+      "proj1-desc": "Plataforma de RRHH con módulos completos de gestión de compañías: usuarios, ubicaciones y socios, además de un sistema de evaluación de desempeño con porcentajes configurables y manejo de razones de baja.",
+      "proj2-status": "Proyecto privado", "proj2-title": "Migración de sistema legado (20+ años)",
+      "proj2-desc": "Restructuración completa de un sistema con más de 20 años en producción: selección del stack tecnológico, migración preservando la integridad de la base de datos, e implementación de AWS (SES, S3, Lambda). Incluye el módulo Activ8, integrado vía API para generar dashboards de gastos, ganancias, crecimiento y contrataciones.",
+      "proj3-status": "Proyecto privado", "proj3-title": "Plataforma para cadenas de escuelas de natación",
+      "proj3-desc": "Sistema construido desde cero: cálculo de rendimiento con fórmulas personalizadas, gestión de pagos, calendario de horarios y perfiles diferenciados para alumnos, maestros, escuelas y administradores.",
+      "lbl-cloud": "cloud & devops", "lbl-db": "database", "lbl-tools": "tools & practices",
+      "tag-relational": "Modelado relacional",
+      "lbl-education": "educación", "edu-license": "Cédula profesional No. 15199747",
+      "lbl-languages": "idiomas", "lang-es": "Español", "lang-es-level": "— Nativo", "lang-en": "Inglés", "lang-en-level": "— Profesional",
+      "footer-text": "Alexis Rojas — actualizado 2026",
+      "cv-btn": "Descargar CV"
+    },
+    en: {
+      "nav-profile": "Profile", "nav-experience": "Experience", "nav-projects": "Projects", "nav-skills": "Skills", "nav-education": "Education",
+      "loc": "Jalisco, Mexico",
+      "h-profile": "Profile", "h-experience": "Experience", "h-projects": "Projects", "h-skills": "Skills",
+      "profile-text": "Full Stack Developer with 4 years of experience designing, building and scaling web applications with Django, Laravel, React, Angular and Next.js. Proactive, problem-solving approach with hands-on experience implementing AWS services (S3, SES, IAM, Lambda) for scalable cloud solutions. Led the migration of a legacy system to a modern stack, improving performance, maintainability and scalability. Experienced mentoring teams and driving best practices in agile environments.",
+      "job1-dates": "December 2025 — Present",
+      "job1-b1": "Develop and maintain dynamic web applications using Django, Laravel and Node.js on the backend, and React and Angular on the frontend.",
+      "job1-b2": "Design, build and consume RESTful APIs for cross-platform integrations and interactive user interfaces.",
+      "job1-b3": "Implement AWS services (S3, SES, IAM) for secure storage, messaging and access-control solutions.",
+      "job1-b4": "Proactively identify and resolve bottlenecks and bugs through structured debugging and testing.",
+      "job1-b5": "Work with MySQL databases, optimizing queries, foreign keys and schema design.",
+      "job1-b6": "Collaborate within Scrum teams, contributing to sprint planning and continuous feature delivery.",
+      "job2-dates": "March 2023 — December 2025",
+      "job2-b1": "Led the migration of a legacy application to a modern Laravel and React/Angular stack, improving structure, performance and long-term scalability.",
+      "job2-b2": "Built and consumed APIs to connect backend services with dynamic frontend applications.",
+      "job2-b3": "Applied object-oriented programming and inheritance principles to design maintainable, reusable code.",
+      "job2-b4": "Worked with relational databases (MySQL), ensuring data consistency and query performance.",
+      "job2-b5": "Implemented permission management and access-control measures to protect application data.",
+      "job2-b6": "Collaborated in Agile/Scrum teams, consistently delivering solutions aligned with business goals.",
+      "proj1-status": "Private project", "proj1-title": "Human Resources System",
+      "proj1-desc": "HR platform with full company-management modules: users, locations and partners, plus a performance evaluation system with configurable weighted scoring and termination-reason tracking.",
+      "proj2-status": "Private project", "proj2-title": "Legacy system migration (20+ years)",
+      "proj2-desc": "Full restructuring of a system that had been in production for over 20 years: chose the technology stack, migrated the database while preserving data integrity, and implemented AWS (SES, S3, Lambda). Includes the Activ8 module, integrated via API to generate dashboards for expenses, revenue, growth and hiring.",
+      "proj3-status": "Private project", "proj3-title": "Platform for swim school chains",
+      "proj3-desc": "System built from scratch: performance tracking with custom formulas, payment management, schedule calendars, and differentiated profiles for students, teachers, schools and administrators.",
+      "lbl-cloud": "cloud & devops", "lbl-db": "database", "lbl-tools": "tools & practices",
+      "tag-relational": "Relational modeling",
+      "lbl-education": "education", "edu-license": "Professional License No. 15199747",
+      "lbl-languages": "languages", "lang-es": "Spanish", "lang-es-level": "— Native", "lang-en": "English", "lang-en-level": "— Professional",
+      "footer-text": "Alexis Rojas — updated 2026",
+      "cv-btn": "Download CV"
+    }
+  };
+
+  function setLang(lang){
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(translations[lang][key] !== undefined){ el.textContent = translations[lang][key]; }
+    });
+    document.querySelectorAll('.lang-btn').forEach(b=> b.classList.toggle('active', b.dataset.lang === lang));
+  }
+  document.querySelectorAll('.lang-btn').forEach(b=>{
+    b.addEventListener('click', ()=> setLang(b.dataset.lang));
+  });
+
+  document.getElementById('theme-toggle').addEventListener('click', ()=>{
+    const html = document.documentElement;
+    const cur = html.getAttribute('data-theme') || 'light';
+    html.setAttribute('data-theme', cur === 'light' ? 'dark' : 'light');
+  });
+
+  // Mouse-tracked glow, constrained to the name + profile zone
+  const introZone = document.getElementById('intro-zone');
+  const glow = document.getElementById('glow');
+  introZone.addEventListener('mousemove', (e)=>{
+    const rect = introZone.getBoundingClientRect();
+    const gw = glow.offsetWidth / 2;
+    const gh = glow.offsetHeight / 2;
+    const x = e.clientX - rect.left - gw;
+    const y = e.clientY - rect.top - gh;
+    glow.style.transform = `translate(${x}px, ${y}px)`;
+  });
+  introZone.addEventListener('mouseleave', ()=>{
+    glow.style.transform = '';
+  });
+
+  // Slide-in reveal for project cards
+  const projEls = document.querySelectorAll('.proj');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  projEls.forEach(el=> io.observe(el));
+</script>
+
+</body>
+</html>
